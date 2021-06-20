@@ -1,8 +1,8 @@
 const express=require("express");
 
-const { default: slugify } = require("slugify");
+
 const router = express.Router();
-const {productsCreate , productsDelete , productsList} =require("../controllers/productsController");
+const {productsCreate , productsDelete , productsList,productUpdate} =require("../controllers/productsController");
 
 
 
@@ -12,6 +12,7 @@ router.delete("/:productId",productsDelete)
 
 router.get("/", productsList) 
 
+router.put("/:productId",productUpdate)
 
 
 

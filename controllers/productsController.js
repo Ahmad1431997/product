@@ -1,53 +1,104 @@
-let {Product} = require("../db/models");
+const {Product} = require("../db/models");
 
-exports.productsCreate = async (req, res) => {
+
+// exports.ProductsList = (req, res) =>  res.json(data);
+
+
+//Fetch Product Function
+exports.fetchProduct= async (productId,next)=>{
+  try {
+      const foundProduct= await Product.findByPk(productId);
+      return (foundProduct)
+  } catch (error) {
+      next(error)
+  }
+}
+
+
+
+
+
+///// products list
+exports.productsList = async (req, res,next) =>  {
+
+  try {
+    const products = await Product.findAll({
+
+        attributes : {exclude: ["createdAt","updatedAt"]}
+
+    }
+    );
+        res.json(products);
+  } 
+  catch (error) { 
+    next(error);
+    // res.status(500).json({msg: error.message ?? "Server Error"})
+  }
+
+};
+
+
+
+
+
+// exports.productDetail = (req, res,next) => {
+//     const reqProduct = data.find(
+//       (product) => product.id === +req.params.productId
+//     );
+//     if (reqProduct) {
+//       res.json(reqProduct);
+//     } else {
+//       next(error);
+//       // res.status(404).json({ msg: "This path is not found" });
+//     }
+//   };
+
+
+
+
+  exports.productsCreate = async (req, res, next) => {
     try {
-        const newProduct =await Product.create(req.body);
+        req.body.image=`http://localhost:8080/media/${req.file.filename}`
+        const newProduct = await Product.create(req.body);
         res.status(201).json(newProduct)
 
     } catch (error) {
-        res.status(500).json({message: error.message??"server error"})
-    }  
+      next(error);
+        // res.status(500).json({msg: error.message ?? "server error"})
+    }
 };
 
-exports.productsDelete =async (req, res) => {
-    try {
-        const foundProduct= await Product.findByPk(req.params.productId);
-        if(foundProduct){
-           await foundProduct.destroy();
-            res.status(204).end();
-        }else { 
-            res.status(404).json({message : "product is not found"})
-        }
-    } catch (error) {
-        res.status(500).json({message: error.message??"server error"})
-    }
- 
-};
 
-exports.productsList = async (req, res) => {
-    try {
-        const products = await Product.findAll({
-            attributes : {exclude: ["createdAt","updatedAt"]}
-        });
-        res.json(products);
-    } catch (error) {
-        res.status(500).json({message: error.message?? "server error"})
-    }
 
-};
 
-exports.productUpdate = async (req,res)=>{
+
+  exports.productsDelete =async (req, res, next) => {
     try {
-        const foundProduct= await Product.findByPk(req.params.productId);
-    if(foundProduct){
-        await foundProduct.update(req.body)
-        res.status(204).end();
-    }else{
-        res.status(404).json({message : "product is not found"})
+      await req.product.destroy();
+      // this >> await req.foundproduct.destroy();
+      res.status(204).end();
+    } catch (err) {
+      next(error);
     }
-    } catch (error) {
-        res.status(500).json({message: error.message??"server error"})
-    }
+  };
+
+
+
+exports.productUpdate =async (req, res, next) => {
+  try {
+      
+    //     req.body.image=`http://localhost:8080/media/${req.file.filename}`
+      
+    // await req.product.update(req.body)
+    // res.json(req.product);
     
-}
+        
+          req.body.image =`http://${req.get("host")}/media/${req.file.filename}`;
+        
+        await req.product.update(req.body);
+        res.status(204).end();
+      
+  } catch (err) {
+    next(err);
+  }
+};

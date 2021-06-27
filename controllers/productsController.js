@@ -58,7 +58,7 @@ exports.productsList = async (req, res,next) =>  {
 
   exports.productsCreate = async (req, res, next) => {
     try {
-        req.body.image=`http://localhost:8080/media/${req.file.filename}`
+        // req.body.image=`http://localhost:8080/media/${req.file.filename}`
         const newProduct = await Product.create(req.body);
         res.status(201).json(newProduct)
 

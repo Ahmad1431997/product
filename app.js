@@ -1,6 +1,6 @@
 const express = require("express");
 const productsRouters = require("./routes/productsRouters");
-const db = require("./db/models");
+// const db = require("./db/models");
 const app = express();
 const path = require("path");
 const cors = require("cors");
@@ -21,6 +21,6 @@ app.use((err,req,res,next)=>{
 })
 
 // db.sequelize.sync();
-db.sequelize.sync();
+// db.sequelize.sync();
 
 app.listen(8080);

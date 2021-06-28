@@ -17,13 +17,13 @@ router.param("productId",async (req,res,next,productId)=>{
     }
 })
 
-router.post("/", upload.single("image") ,productsCreate);
+// router.post("/", upload.single("image") ,productsCreate);
  
-router.delete("/:productId",productsDelete)
+// router.delete("/:productId",productsDelete)
 
 router.get("/", productsList) 
 
-router.put("/:productId",upload.single("image"),productUpdate)
+// router.put("/:productId",upload.single("image"),productUpdate)
 
 
 

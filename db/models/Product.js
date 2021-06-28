@@ -19,5 +19,19 @@ module.exports = (sequelize, DataTypes) => {
         source: ["name"],
       });
       
+      Product.associate=(models)=>{
+        models.Shop.hasMany(Product,{
+          foreignKey:"shopId",
+          allowNull:false,
+          as: "products"
+        })
+      
+
+      Product.belongsTo(models.Shop,{
+        foreignKey:"shopId",
+        
+      })
+    }
+
       return Product;
     };   

@@ -81,7 +81,7 @@ exports.productsCreate = async (req, res, next) => {
     try {
         req.body.shopId=req.shop.id
         req.body.image=`http://localhost:8080/media/${req.file.filename}`
-        const newProduct = await Shop.create(req.body);
+        const newProduct = await Product.create(req.body);
         res.status(201).json(newProduct)
 
     } catch (error) {

@@ -1,6 +1,7 @@
 const express = require("express");
 const productsRouters = require("./routes/productsRouters");
 const shopsRoutes=require("./routes/shopsRoutes")
+const userRoutes= require("./routes/userRoutes")
 // const db = require("./db/models");
 const app = express();
 const path = require("path");
@@ -10,6 +11,7 @@ app.use(express.json());
 
 app.use("/shops", shopsRoutes);
 app.use("/products", productsRouters);
+app.use("/signup",userRoutes)
 
 // app.use("/media",express.static(__dirname + "media"))
 app.use("/media", express.static(path.join(__dirname, "media")));

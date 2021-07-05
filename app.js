@@ -2,6 +2,8 @@ const express = require("express");
 const productsRouters = require("./routes/productsRouters");
 const shopsRoutes=require("./routes/shopsRoutes")
 const userRoutes= require("./routes/userRoutes")
+const passport = require("passport")
+const {localStrategy, jwtStrategy} = require("./middleware/passport")
 // const db = require("./db/models");
 const app = express();
 const path = require("path");
@@ -9,9 +11,14 @@ const cors = require("cors");
 app.use(cors())
 app.use(express.json());
 
+app.use(passport.initialize())
+passport.use(localStrategy)
+passport.use(jwtStrategy)
+
 app.use("/shops", shopsRoutes);
 app.use("/products", productsRouters);
-app.use("/signup",userRoutes)
+app.use(userRoutes)
+
 
 // app.use("/media",express.static(__dirname + "media"))
 app.use("/media", express.static(path.join(__dirname, "media")));

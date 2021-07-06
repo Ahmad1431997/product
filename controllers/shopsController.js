@@ -65,8 +65,10 @@ exports.shopsList = async (req, res,next) =>  {
 
   exports.shopsCreate = async (req, res, next) => {
     try {
+      req.body.userId=req.user.id
         req.body.image=`http://localhost:8080/media/${req.file.filename}`
-        const newShop = await Product.create(req.body);
+        const newShop = await Shop.create(req.body);
+        console.log(req.body)
         res.status(201).json(newShop)
 
     } catch (error) {
@@ -74,6 +76,7 @@ exports.shopsList = async (req, res,next) =>  {
         // res.status(500).json({msg: error.message ?? "server error"})
     }
 };
+
 
 
 

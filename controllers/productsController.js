@@ -72,15 +72,15 @@ exports.productsList = async (req, res,next) =>  {
 
 
 
-  // exports.productsDelete =async (req, res, next) => {
-  //   try {
-  //     await req.product.destroy();
-  //     // this >> await req.foundproduct.destroy();
-  //     res.status(204).end();
-  //   } catch (err) {
-  //     next(error);
-  //   }
-  // };
+  exports.productsDelete =async (req, res, next) => {
+    try {
+      await req.product.destroy();
+      // this >> await req.foundproduct.destroy();
+      res.status(204).end();
+    } catch (error) {
+      next(error);
+    }
+  };
 
 
 
@@ -98,7 +98,19 @@ exports.productsList = async (req, res,next) =>  {
 //         await req.product.update(req.body);
 //         res.status(204).end();
       
-//   } catch (err) {
-//     next(err);
+//   } catch (error) {
+//     next(error);
 //   }
 // };
+exports.productUpdate = async (req, res, next) => {
+  try {
+    console.log(req.body,req.file,"hi")
+    if (req.file) {
+      req.body.image =`http://${req.get("host")}/media/${req.file.filename}`;
+    }
+    await req.product.update(req.body);
+    res.json(req.product);
+  } catch (error) {
+    next(error);
+  }
+};

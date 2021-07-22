@@ -82,6 +82,13 @@ exports.shopsList = async (req, res,next) =>  {
 
 exports.productsCreate = async (req, res, next) => {
     try {
+      if(req.shop.userId !== req.user.id){
+
+        next({
+          status: 401,
+          message: "This shop not yours! you can't do that"
+        })
+      }
         req.body.shopId=req.shop.id
         req.body.image=`http://localhost:8080/media/${req.file.filename}`
         const newProduct = await Product.create(req.body);

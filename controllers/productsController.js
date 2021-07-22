@@ -1,4 +1,4 @@
-const {Product} = require("../db/models");
+const {Product,Shop} = require("../db/models");
 
 
 // exports.ProductsList = (req, res) =>  res.json(data);
@@ -74,6 +74,13 @@ exports.productsList = async (req, res,next) =>  {
 
   exports.productsDelete =async (req, res, next) => {
     try {
+      // const shop =  Shop.findByPk(req.product.id)
+      
+      // if(req.shop.userId !== req.user.id){
+      //   throw{
+      //     status: 401,
+      //     message: "This product not yours! you can't do that"
+      //   }}
       await req.product.destroy();
       // this >> await req.foundproduct.destroy();
       res.status(204).end();
@@ -104,7 +111,12 @@ exports.productsList = async (req, res,next) =>  {
 // };
 exports.productUpdate = async (req, res, next) => {
   try {
-    console.log(req.body,req.file,"hi")
+    // if(req.shop.userId !== req.user.id){
+    //   throw{
+    //     status: 401,
+    //     message: "This product not yours! you can't do that"
+    //   }}
+    // console.log(req.body,req.file,"hi")
     if (req.file) {
       req.body.image =`http://${req.get("host")}/media/${req.file.filename}`;
     }
